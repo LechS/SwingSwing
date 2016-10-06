@@ -40,7 +40,6 @@
 
 <div id="wrapper">
     {% include 'default/navbar.html.twig' %}
-
     <div id="page-wrapper">
     {% block body %}
     {% endblock %}
@@ -67,6 +66,9 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="../dist/js/sb-admin-2.js"></script>
+
+{% block addjavascripts %}
+{% endblock %}
 
 </body>
 
