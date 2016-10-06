@@ -31,6 +31,7 @@ security:
                 resource_owners:
                     facebook:           "/social/login/check-facebook"
                 login_path:        /social/login
+                default_target_path: /test
                 failure_path:      /social/login
 
                 oauth_user_provider:

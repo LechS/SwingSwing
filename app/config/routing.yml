@@ -1,9 +1,13 @@
+facebook:
+    resource: "@FacebookBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
-
 
 #HWIOAuthBundle routes
 hwi_oauth_security:
