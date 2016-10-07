@@ -1,4 +1,4 @@
 services:
-#    facebook.example:
-#        class: FacebookBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    app.facebook:
+        class: FacebookBundle\Service\FacebookService
+        arguments: ['@doctrine.orm.entity_manager', "@security.token_storage", "%facebook_app_id%", "%facebook_app_secret%"]

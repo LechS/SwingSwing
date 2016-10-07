@@ -21,7 +21,10 @@ class User extends BaseUser
     protected $facebook_id;
     
     /** @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true) */
-    protected $facebook_access_token;
+    protected $facebook_access_token;    
+    
+    /** @ORM\Column(name="facebook_long_lived_access_token", type="string", length=255, nullable=true) */
+    protected $facebook_long_lived_access_token;
     
     
     public function __construct()
@@ -77,5 +80,29 @@ class User extends BaseUser
     public function getFacebookAccessToken()
     {
         return $this->facebook_access_token;
+    }
+
+    /**
+     * Set facebookLongLivedAccessToken
+     *
+     * @param string $facebookLongLivedAccessToken
+     *
+     * @return User
+     */
+    public function setFacebookLongLivedAccessToken($facebookLongLivedAccessToken)
+    {
+        $this->facebook_long_lived_access_token = $facebookLongLivedAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * Get facebookLongLivedAccessToken
+     *
+     * @return string
+     */
+    public function getFacebookLongLivedAccessToken()
+    {
+        return $this->facebook_long_lived_access_token;
     }
 }

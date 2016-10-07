@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/success/login", name="loginSucces")
+     * @Route("/success/login", name="loginSuccess")
      */
     public function facebookLoginSuccessAction(Request $request)
     {
@@ -18,8 +18,9 @@ class DefaultController extends Controller
             throw new Exception('No access');
         }
 
-        die('asdasda');
 
+        $this->get('app.facebook')->setLongLivedAccessToken();
+        
         return $this->render('FacebookBundle:Default:index.html.twig');
     }
 }
