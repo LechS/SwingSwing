@@ -15,12 +15,45 @@ class DefaultController extends Controller
     public function facebookLoginSuccessAction(Request $request)
     {
         if(!$loggedUser = $this->getUser()){
-            throw new Exception('No access');
+            return $this->redirect('homepage');
         }
 
+        $facebookService = $this->get('app.facebook');
+        $facebookService->setLongLivedAccessToken($loggedUser);
+        $facebookService->checkPermissions($loggedUser);
 
-        $this->get('app.facebook')->setLongLivedAccessToken();
+        return $this->render('FacebookBundle:Default:index.html.twig');
+    }
+
+    /**
+     * @Route("/publication/test", name="publicationTest")
+     */
+    public function facebookPublicationTest(Request $request)
+    {
+        if(!$loggedUser = $this->getUser()){
+            return $this->redirect('homepage');
+        }
+
+        $facebookService = $this->get('app.facebook');
+        $facebookService->publicationTest($loggedUser);
+
+        return $this->render('FacebookBundle:Default:index.html.twig');
+    }
+    
+    /**
+     * @Route("/search/test", name="searchTest")
+     */
+    public function searchAction(Request $request)
+    {
+        if(!$loggedUser = $this->getUser()){
+            return $this->redirect('homepage');
+        }
+
+        $searchString = '';
         
+        $facebookService = $this->get('app.facebook');
+        $facebookService->search($loggedUser, $searchString);
+
         return $this->render('FacebookBundle:Default:index.html.twig');
     }
 }

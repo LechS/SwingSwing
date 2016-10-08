@@ -1,4 +1,4 @@
 services:
     app.facebook:
         class: FacebookBundle\Service\FacebookService
-        arguments: ['@doctrine.orm.entity_manager', "@security.token_storage", "%facebook_app_id%", "%facebook_app_secret%"]
+        arguments: ['@doctrine.orm.entity_manager', "%facebook_app_id%", "%facebook_app_secret%"]

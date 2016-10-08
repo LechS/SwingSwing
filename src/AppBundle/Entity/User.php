@@ -3,6 +3,8 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
+use AppBundle\Entity\Traits\Timestamps;
 
 /**
  * @ORM\Entity
@@ -10,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User extends BaseUser
 {
+    use Timestamps;
+    
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -25,6 +29,12 @@ class User extends BaseUser
     
     /** @ORM\Column(name="facebook_long_lived_access_token", type="string", length=255, nullable=true) */
     protected $facebook_long_lived_access_token;
+
+    /**
+     * @ORM\Column(name="ll_token_expiration_date", type="datetime", nullable=true)
+     * @var \DateTime
+     */
+    private $llTokenExpirationDate;
     
     
     public function __construct()
@@ -104,5 +114,29 @@ class User extends BaseUser
     public function getFacebookLongLivedAccessToken()
     {
         return $this->facebook_long_lived_access_token;
+    }
+
+    /**
+     * Set llTokenExpirationDate
+     *
+     * @param \DateTime $llTokenExpirationDate
+     *
+     * @return User
+     */
+    public function setLlTokenExpirationDate($llTokenExpirationDate)
+    {
+        $this->llTokenExpirationDate = $llTokenExpirationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get llTokenExpirationDate
+     *
+     * @return \DateTime
+     */
+    public function getLlTokenExpirationDate()
+    {
+        return $this->llTokenExpirationDate;
     }
 }
