@@ -2,6 +2,7 @@
 
 namespace FacebookBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -9,20 +10,24 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
+
     /**
      * @Route("/success/login", name="loginSuccess")
+     *
+     * 
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function facebookLoginSuccessAction(Request $request)
+    public function facebookLoginSuccessAction()
     {
         if(!$loggedUser = $this->getUser()){
             return $this->redirect('homepage');
         }
 
-        $facebookService = $this->get('app.facebook');
-        $facebookService->setLongLivedAccessToken($loggedUser);
-        $facebookService->checkPermissions($loggedUser);
+        $fbService = $this->get('app.facebook');
+        $fbService->setLongLivedAccessToken($loggedUser);
+        $fbService->checkPermissions($fbService->getPermissions($loggedUser));
 
-        return $this->render('FacebookBundle:Default:index.html.twig');
+        return $this->redirectToRoute('homepage');
     }
 
     /**

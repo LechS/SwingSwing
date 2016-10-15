@@ -2,7 +2,7 @@
 namespace FacebookBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use AppBundle\Entity\User;
 use DateTime;
 
@@ -13,9 +13,22 @@ use Facebook\FacebookRequest;
 class FacebookService
 {
     protected $em;
+
     protected $facebook;
+
     protected $fbApp;
 
+    const VALID_SEARCH_TYPES =[
+        'page',
+        'group'
+    ];
+
+    /**
+     * FacebookService constructor.
+     * @param EntityManager $em
+     * @param $appId
+     * @param $appSecret
+     */
     public function __construct(EntityManager $em, $appId, $appSecret)
     {
         $this->em = $em;
@@ -28,7 +41,10 @@ class FacebookService
 
         $this->fbApp = new FacebookApp("{$appId}", "{$appSecret}");
     }
-    
+
+    /**
+     * @param User $user
+     */
     public function setLongLivedAccessToken(User $user){
 
         $facebook = $this->facebook;
@@ -42,7 +58,11 @@ class FacebookService
         $this->em->flush();
     }
 
-    public function checkPermissions(User $user){
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function getPermissions(User $user){
         $fb = $this->facebook;
 
         $fb->setDefaultAccessToken($user->getFacebookLongLivedAccessToken());
@@ -59,7 +79,14 @@ class FacebookService
             exit;
         }
 
-        $permissions = $response->getDecodedBody();
+        return $response->getDecodedBody();
+    }
+
+    /**
+     * @param array $permissions
+     * @return bool
+     */
+    public function checkPermissions(array $permissions){
 
         foreach ($permissions['data'] as $perm){
             if($perm['status'] != 'granted'){
@@ -69,6 +96,10 @@ class FacebookService
         return true;
     }
 
+    /**
+     * @param User $user
+     * @return bool
+     */
     public function checkTokenExpirationDate(User $user){
 
         $now = new DateTime('now');
@@ -80,19 +111,26 @@ class FacebookService
             return true;
         }
     }
-    
-    public function publicationTest(User $user){
+
+    /**
+     * @param User $user
+     * @param $id
+     * @param null $message
+     * @param null $link
+     * @return \Facebook\GraphNodes\GraphNode
+     */
+    public function publish(User $user, $id, $message = null, $link = null){
         $fb = $this->facebook;
         $fb->setDefaultAccessToken($user->getFacebookLongLivedAccessToken());
 
-        $linkData = [
-            'link' => 'http://www.example.com',
-            'message' => 'User provided message',
+        $data = [
+            'link' => $link,
+            'message' => $message,
         ];
 
         try {
             // Returns a `Facebook\FacebookResponse` object
-            $response = $fb->post('/{id}/feed', $linkData);
+            $response = $fb->post("/{$id}/feed", $data);
         } catch(Facebook\Exceptions\FacebookResponseException $e) {
             echo 'Graph returned an error: ' . $e->getMessage();
             exit;
@@ -101,21 +139,25 @@ class FacebookService
             exit;
         }
 
-        $graphNode = $response->getGraphNode();
-
-        var_dump($graphNode);die;
-
-        die('ok');
+        return $response->getGraphNode();
     }
 
-    public function search(User $user, $searchString, $type = null){
+    /**
+     * @param User $user
+     * @param $searchString
+     * @param $type
+     * @return array
+     */
+    public function search(User $user, $searchString, $type){
         $fb = $this->facebook;
         $fbApp = $this->fbApp;
 
-        $searchString = 'shimsham';
+        if(!in_array($type, self::VALID_SEARCH_TYPES)){
+            throw new Exception('invalid search type');
+        }
 
         $searchArray =   array (
-            'type' => 'group',
+            'type' => $type,
             'q' => $searchString,
             'fields' => 'id,name,privacy,locale',
         );
@@ -134,8 +176,6 @@ class FacebookService
             echo 'Facebook SDK returned an error: ' . $e->getMessage();
             exit;
         }
-
-        var_dump($response->getDecodedBody());die;
 
         return $response->getDecodedBody();
     }
