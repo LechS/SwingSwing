@@ -10,6 +10,9 @@ use Facebook\Facebook;
 use Facebook\FacebookApp;
 use Facebook\FacebookRequest;
 
+use Facebook\Exceptions\FacebookSDKException;
+use Facebook\Exceptions\FacebookResponseException;
+
 class FacebookService
 {
     protected $em;
@@ -69,11 +72,11 @@ class FacebookService
 
         try {
             $response = $fb->get("/{$user->getFacebookId()}/permissions");
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+        } catch(FacebookResponseException $e) {
             // When Graph returns an error
             echo 'Graph returned an error: ' . $e->getMessage();
             exit;
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+        } catch(FacebookSDKException $e) {
             // When validation fails or other local issues
             echo 'Facebook SDK returned an error: ' . $e->getMessage();
             exit;
@@ -131,10 +134,10 @@ class FacebookService
         try {
             // Returns a `Facebook\FacebookResponse` object
             $response = $fb->post("/{$id}/feed", $data);
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+        } catch(FacebookResponseException $e) {
             echo 'Graph returned an error: ' . $e->getMessage();
             exit;
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+        } catch(FacebookSDKException $e) {
             echo 'Facebook SDK returned an error: ' . $e->getMessage();
             exit;
         }
@@ -167,11 +170,11 @@ class FacebookService
 // Send the request to Graph
         try {
             $response = $fb->getClient()->sendRequest($request);
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+        } catch(FacebookResponseException $e) {
             // When Graph returns an error
             echo 'Graph returned an error: ' . $e->getMessage();
             exit;
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+        } catch(FacebookSDKException $e) {
             // When validation fails or other local issues
             echo 'Facebook SDK returned an error: ' . $e->getMessage();
             exit;

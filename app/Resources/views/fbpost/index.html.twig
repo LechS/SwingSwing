@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>FbPost list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Message</th>
+                <th>Link</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fbPost in fbPosts %}
+            <tr>
+                <td><a href="{{ path('fbpost_show', { 'id': fbPost.id }) }}">{{ fbPost.id }}</a></td>
+                <td>{{ fbPost.message }}</td>
+                <td>{{ fbPost.link }}</td>
+                <td>{{ fbPost.status }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('fbpost_show', { 'id': fbPost.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('fbpost_edit', { 'id': fbPost.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('fbpost_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

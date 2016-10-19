@@ -13,8 +13,8 @@ class DefaultController extends Controller
 
     /**
      * @Route("/success/login", name="loginSuccess")
+     * @Security("has_role('ROLE_USER')")
      *
-     * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function facebookLoginSuccessAction()
@@ -28,37 +28,5 @@ class DefaultController extends Controller
         $fbService->checkPermissions($fbService->getPermissions($loggedUser));
 
         return $this->redirectToRoute('homepage');
-    }
-
-    /**
-     * @Route("/publication/test", name="publicationTest")
-     */
-    public function facebookPublicationTest(Request $request)
-    {
-        if(!$loggedUser = $this->getUser()){
-            return $this->redirect('homepage');
-        }
-
-        $facebookService = $this->get('app.facebook');
-        $facebookService->publicationTest($loggedUser);
-
-        return $this->render('FacebookBundle:Default:index.html.twig');
-    }
-    
-    /**
-     * @Route("/search/test", name="searchTest")
-     */
-    public function searchAction(Request $request)
-    {
-        if(!$loggedUser = $this->getUser()){
-            return $this->redirect('homepage');
-        }
-
-        $searchString = '';
-        
-        $facebookService = $this->get('app.facebook');
-        $facebookService->search($loggedUser, $searchString);
-
-        return $this->render('FacebookBundle:Default:index.html.twig');
     }
 }

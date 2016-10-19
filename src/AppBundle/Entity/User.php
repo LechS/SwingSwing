@@ -8,7 +8,7 @@ use AppBundle\Entity\Traits\Timestamps;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fos_user")
+ * @ORM\Table(name="fos_users")
  */
 class User extends BaseUser
 {
@@ -35,7 +35,11 @@ class User extends BaseUser
      * @var \DateTime
      */
     private $llTokenExpirationDate;
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FbPost", mappedBy="user")
+     */
+    private $fbPosts;
     
     public function __construct()
     {
@@ -138,5 +142,39 @@ class User extends BaseUser
     public function getLlTokenExpirationDate()
     {
         return $this->llTokenExpirationDate;
+    }
+
+    /**
+     * Add fbPost
+     *
+     * @param \AppBundle\Entity\FbPost $fbPost
+     *
+     * @return User
+     */
+    public function addFbPost(\AppBundle\Entity\FbPost $fbPost)
+    {
+        $this->fbPosts[] = $fbPost;
+
+        return $this;
+    }
+
+    /**
+     * Remove fbPost
+     *
+     * @param \AppBundle\Entity\FbPost $fbPost
+     */
+    public function removeFbPost(\AppBundle\Entity\FbPost $fbPost)
+    {
+        $this->fbPosts->removeElement($fbPost);
+    }
+
+    /**
+     * Get fbPosts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFbPosts()
+    {
+        return $this->fbPosts;
     }
 }

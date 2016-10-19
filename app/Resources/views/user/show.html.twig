@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>User</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Facebook_id</th>
+                <td>{{ user.facebookid }}</td>
+            </tr>
+            <tr>
+                <th>Facebook_access_token</th>
+                <td>{{ user.facebookaccesstoken }}</td>
+            </tr>
+            <tr>
+                <th>Facebook_long_lived_access_token</th>
+                <td>{{ user.facebooklonglivedaccesstoken }}</td>
+            </tr>
+            <tr>
+                <th>Lltokenexpirationdate</th>
+                <td>{% if user.llTokenExpirationDate %}{{ user.llTokenExpirationDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{% if user.created %}{{ user.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updated</th>
+                <td>{% if user.updated %}{{ user.updated|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('user_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('user_edit', { 'id': user.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

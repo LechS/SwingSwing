@@ -35,7 +35,11 @@ class User extends BaseUser
      * @var \DateTime
      */
     private $llTokenExpirationDate;
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FbPost", mappedBy="user")
+     */
+    private $fbPosts;
     
     public function __construct()
     {
@@ -114,5 +118,29 @@ class User extends BaseUser
     public function getFacebookLongLivedAccessToken()
     {
         return $this->facebook_long_lived_access_token;
+    }
+
+    /**
+     * Set llTokenExpirationDate
+     *
+     * @param \DateTime $llTokenExpirationDate
+     *
+     * @return User
+     */
+    public function setLlTokenExpirationDate($llTokenExpirationDate)
+    {
+        $this->llTokenExpirationDate = $llTokenExpirationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get llTokenExpirationDate
+     *
+     * @return \DateTime
+     */
+    public function getLlTokenExpirationDate()
+    {
+        return $this->llTokenExpirationDate;
     }
 }

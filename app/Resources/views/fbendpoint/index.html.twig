@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>FbEndpoint list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fbid</th>
+                <th>Name</th>
+                <th>City</th>
+                <th>Country</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fbEndpoint in fbEndpoints %}
+            <tr>
+                <td><a href="{{ path('fbendpoint_show', { 'id': fbEndpoint.id }) }}">{{ fbEndpoint.id }}</a></td>
+                <td>{{ fbEndpoint.fbId }}</td>
+                <td>{{ fbEndpoint.name }}</td>
+                <td>{{ fbEndpoint.city }}</td>
+                <td>{{ fbEndpoint.country }}</td>
+                <td>{{ fbEndpoint.type }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('fbendpoint_show', { 'id': fbEndpoint.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('fbendpoint_edit', { 'id': fbEndpoint.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('fbendpoint_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

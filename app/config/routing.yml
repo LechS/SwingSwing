@@ -1,3 +1,15 @@
+app_user:
+    resource: "@AppBundle/Controller/UserController.php"
+    type:     annotation
+
+app_fb_endpoint:
+    resource: "@AppBundle/Controller/FbEndpointController.php"
+    type:     annotation
+
+app_fb_post:
+    resource: "@AppBundle/Controller/FbPostController.php"
+    type:     annotation
+
 facebook:
     resource: "@FacebookBundle/Controller/"
     type:     annotation

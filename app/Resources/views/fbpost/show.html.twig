@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>FbPost</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ fbPost.id }}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{ fbPost.message }}</td>
+            </tr>
+            <tr>
+                <th>Link</th>
+                <td>{{ fbPost.link }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ fbPost.status }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('fbpost_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('fbpost_edit', { 'id': fbPost.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
