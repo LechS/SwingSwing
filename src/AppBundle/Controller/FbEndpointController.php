@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -21,6 +22,7 @@ class FbEndpointController extends Controller
      *
      * @Route("/", name="fbendpoint_index")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      */
     public function indexAction()
     {
@@ -38,6 +40,7 @@ class FbEndpointController extends Controller
      *
      * @Route("/new", name="fbendpoint_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function newAction(Request $request)
     {
@@ -64,6 +67,7 @@ class FbEndpointController extends Controller
      *
      * @Route("/{id}", name="fbendpoint_show")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      */
     public function showAction(FbEndpoint $fbEndpoint)
     {
@@ -80,6 +84,7 @@ class FbEndpointController extends Controller
      *
      * @Route("/{id}/edit", name="fbendpoint_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function editAction(Request $request, FbEndpoint $fbEndpoint)
     {
@@ -107,6 +112,7 @@ class FbEndpointController extends Controller
      *
      * @Route("/{id}", name="fbendpoint_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_USER')")
      */
     public function deleteAction(Request $request, FbEndpoint $fbEndpoint)
     {

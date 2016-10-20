@@ -62,8 +62,15 @@ class FbEndpoint
      */
     private $fbPosts;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="fbEndpoints")
+     * @ORM\JoinTable(name="users_endpoints")
+     */
+    private $users;
+
     public function __construct() {
         $this->fbPosts = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -228,5 +235,39 @@ class FbEndpoint
     public function getFbPosts()
     {
         return $this->fbPosts;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \AppBundle\Entity\FbEndpoint $user
+     *
+     * @return FbEndpoint
+     */
+    public function addUser(\AppBundle\Entity\FbEndpoint $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \AppBundle\Entity\FbEndpoint $user
+     */
+    public function removeUser(\AppBundle\Entity\FbEndpoint $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

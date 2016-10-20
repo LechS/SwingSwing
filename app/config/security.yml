@@ -30,7 +30,7 @@ security:
             oauth:
                 resource_owners:
                     facebook:           "/social/login/check-facebook"
-                login_path:        /social/login
+                login_path:        /
                 default_target_path: /success/login
                 failure_path:      /social/login
 

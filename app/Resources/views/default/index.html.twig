@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
     <!-- Social Buttons CSS -->
-    <link href="../vendor/bootstrap-social/bootstrap-social.css" rel="stylesheet">
+    <link href="{{ asset('vendor/bootstrap-social/bootstrap-social.css') }}" rel="stylesheet">
 {% endblock %}
 {% block body %}
     <a class="btn btn-block btn-social btn-facebook" href="{{ path('facebook_connect') }}" style="width: 20%">

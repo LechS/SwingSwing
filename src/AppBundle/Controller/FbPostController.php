@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -21,6 +22,7 @@ class FbPostController extends Controller
      *
      * @Route("/", name="fbpost_index")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      */
     public function indexAction()
     {
@@ -38,6 +40,7 @@ class FbPostController extends Controller
      *
      * @Route("/new", name="fbpost_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function newAction(Request $request)
     {
@@ -64,6 +67,7 @@ class FbPostController extends Controller
      *
      * @Route("/{id}", name="fbpost_show")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      */
     public function showAction(FbPost $fbPost)
     {
@@ -80,6 +84,7 @@ class FbPostController extends Controller
      *
      * @Route("/{id}/edit", name="fbpost_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function editAction(Request $request, FbPost $fbPost)
     {
@@ -107,6 +112,7 @@ class FbPostController extends Controller
      *
      * @Route("/{id}", name="fbpost_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_USER')")
      */
     public function deleteAction(Request $request, FbPost $fbPost)
     {

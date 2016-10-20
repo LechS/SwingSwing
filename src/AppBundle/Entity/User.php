@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
@@ -40,11 +41,16 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\FbPost", mappedBy="user")
      */
     private $fbPosts;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\FbEndpoint", mappedBy="users")
+     */
+    private $fbEndpoints;
     
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+        $this->fbEndpoints = new ArrayCollection();
     }
 
 
@@ -176,5 +182,39 @@ class User extends BaseUser
     public function getFbPosts()
     {
         return $this->fbPosts;
+    }
+
+    /**
+     * Add fbEndpoint
+     *
+     * @param \AppBundle\Entity\FbEndpoint $fbEndpoint
+     *
+     * @return User
+     */
+    public function addFbEndpoint(\AppBundle\Entity\FbEndpoint $fbEndpoint)
+    {
+        $this->fbEndpoints[] = $fbEndpoint;
+
+        return $this;
+    }
+
+    /**
+     * Remove fbEndpoint
+     *
+     * @param \AppBundle\Entity\FbEndpoint $fbEndpoint
+     */
+    public function removeFbEndpoint(\AppBundle\Entity\FbEndpoint $fbEndpoint)
+    {
+        $this->fbEndpoints->removeElement($fbEndpoint);
+    }
+
+    /**
+     * Get fbEndpoints
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFbEndpoints()
+    {
+        return $this->fbEndpoints;
     }
 }

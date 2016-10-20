@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FbEndpoint
  *
- * @ORM\Table(name="fb_endpoint")
+ * @ORM\Table(name="fb_endpoints")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FbEndpointRepository")
  */
 class FbEndpoint
@@ -61,6 +61,12 @@ class FbEndpoint
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\FbPost", mappedBy="fbEndpoints")
      */
     private $fbPosts;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\FbEndpoint", inversedBy="users")
+     * @ORM\JoinTable(name="users_endpoints")
+     */
+    private $users;
 
     public function __construct() {
         $this->fbPosts = new ArrayCollection();
@@ -123,5 +129,110 @@ class FbEndpoint
     {
         return $this->type;
     }
-}
 
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return FbEndpoint
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     *
+     * @return FbEndpoint
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     *
+     * @return FbEndpoint
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Add fbPost
+     *
+     * @param \AppBundle\Entity\FbPost $fbPost
+     *
+     * @return FbEndpoint
+     */
+    public function addFbPost(\AppBundle\Entity\FbPost $fbPost)
+    {
+        $this->fbPosts[] = $fbPost;
+
+        return $this;
+    }
+
+    /**
+     * Remove fbPost
+     *
+     * @param \AppBundle\Entity\FbPost $fbPost
+     */
+    public function removeFbPost(\AppBundle\Entity\FbPost $fbPost)
+    {
+        $this->fbPosts->removeElement($fbPost);
+    }
+
+    /**
+     * Get fbPosts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFbPosts()
+    {
+        return $this->fbPosts;
+    }
+}

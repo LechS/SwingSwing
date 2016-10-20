@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FbPost
  *
- * @ORM\Table(name="fb_post")
+ * @ORM\Table(name="fb_posts")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FbPostRepository")
  */
 class FbPost
@@ -189,5 +189,38 @@ class FbPost
     {
         return $this->status;
     }
-}
 
+    /**
+     * Add fbEndpoint
+     *
+     * @param \AppBundle\Entity\FbEndpoint $fbEndpoint
+     *
+     * @return FbPost
+     */
+    public function addFbEndpoint(\AppBundle\Entity\FbEndpoint $fbEndpoint)
+    {
+        $this->fbEndpoints[] = $fbEndpoint;
+
+        return $this;
+    }
+
+    /**
+     * Remove fbEndpoint
+     *
+     * @param \AppBundle\Entity\FbEndpoint $fbEndpoint
+     */
+    public function removeFbEndpoint(\AppBundle\Entity\FbEndpoint $fbEndpoint)
+    {
+        $this->fbEndpoints->removeElement($fbEndpoint);
+    }
+
+    /**
+     * Get fbEndpoints
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFbEndpoints()
+    {
+        return $this->fbEndpoints;
+    }
+}
