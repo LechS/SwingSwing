@@ -13,6 +13,18 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class FbPost
 {
+    const STATUS_NEW = 0;
+    const STATUS_DRAFT = 1;
+    const STATUS_TO_SEND = 2;
+    const STATUS_SENDING = 3;
+
+    const STATUSES = [
+        self::STATUS_NEW => 'nowy',
+        self::STATUS_DRAFT => 'draft',
+        self::STATUS_TO_SEND => 'do wysłania',
+        self::STATUS_SENDING => 'wysyłany',
+    ];
+
     /**
      * @var int
      *
@@ -39,9 +51,9 @@ class FbPost
     /**
      * @var int
      *
-     * @ORM\Column(name="status", type="integer")
+     * @ORM\Column(name="status", type="integer", nullable=false)
      */
-    private $status;
+    private $status = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="fbPosts")

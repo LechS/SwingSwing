@@ -20,7 +20,6 @@ class FbEndpointType extends AbstractType
             ->add('city')
             ->add('country')
             ->add('type')
-            ->add('fbPosts')
         ;
     }
     

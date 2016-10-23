@@ -4,13 +4,34 @@
     <h1>FbPost creation</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-1">
+            {{ form_label(form.message) }}
+                </div>
+                <div class="col-md-6">
+            {{ form_widget(form.message) }}
+            {{ form_errors(form.message) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-1">
+                {{ form_label(form.link) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_widget(form.link) }}
+                    {{ form_errors(form.link) }}
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
     {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('fbpost_index') }}">Back to the list</a>
-        </li>
-    </ul>
+    {#<ul>#}
+        {#<li>#}
+            {#<a href="{{ path('fbpost_index') }}">Back to the list</a>#}
+        {#</li>#}
+    {#</ul>#}
 {% endblock %}

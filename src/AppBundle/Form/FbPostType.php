@@ -17,9 +17,9 @@ class FbPostType extends AbstractType
         $builder
             ->add('message')
             ->add('link')
-            ->add('status')
-            ->add('user')
-            ->add('fbEndpoints')
+//            ->add('status')
+//            ->add('user')
+//            ->add('fbEndpoints')
         ;
     }
     
