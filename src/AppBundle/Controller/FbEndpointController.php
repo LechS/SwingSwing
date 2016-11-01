@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -45,7 +46,9 @@ class FbEndpointController extends Controller
     public function newAction(Request $request)
     {
         $fbEndpoint = new FbEndpoint();
-        $form = $this->createForm('AppBundle\Form\FbEndpointType', $fbEndpoint);
+        $form = $this->createForm('AppBundle\Form\FbEndpointType', $fbEndpoint, [
+            'allow_extra_fields' => true,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -58,7 +61,7 @@ class FbEndpointController extends Controller
 
         return $this->render('fbendpoint/new.html.twig', array(
             'fbEndpoint' => $fbEndpoint,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ));
     }
 

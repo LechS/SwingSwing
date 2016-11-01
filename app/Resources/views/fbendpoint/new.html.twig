@@ -1,18 +1,64 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>FbEndpoint creation</h1>
+    <h1>Wyszukaj fanpage lub grupę z facebooka</h1>
 
     {{ form_start(form) }}
-        <div class="form-group">
-        {{ form_widget(form) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2">
+                Podaj link, nazwę lub id
+            </div>
+            <div class="col-md-6">
+                {{ form_widget(form.search, {'attr' :{'class' : 'form-control'}}) }}
+                {{ form_errors(form.search) }}
+            </div>
         </div>
-        <input type="submit" value="Create" />
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2">
+                Wybierz rodzaj
+            </div>
+            <div class="col-md-6">
+                {{ form_widget(form.type, {'attr' :{'class' : 'form-control'}}) }}
+                {{ form_errors(form.type) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7"></div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-default" id="search">Szukaj</button>
+        </div>
+    </div>
     {{ form_end(form) }}
+{% endblock %}
 
-    <ul>
-        <li>
-            <a href="{{ path('fbendpoint_index') }}">Back to the list</a>
-        </li>
-    </ul>
+{% block addjavascripts %}
+    {#<script type="text/javascript">#}
+        {#$(document).ready(function() {#}
+            {#$("#search").click(function (event) {#}
+                {#event.preventDefault();#}
+
+                {#var searchSelector = "#{{ form.search.vars.id }}";#}
+                {#var typeSelector = "#{{ form.type.vars.id }}";#}
+
+                {#var url = "{{ path('fbendpoint_search') }}";#}
+                {#var searchString = $(searchSelector).val();#}
+                {#var type = $(typeSelector).val();#}
+
+                {#if(searchString == ''){#}
+                    {#alert('Podaj dane wyszukiwania');#}
+                    {#$('#input').focus();#}
+                {#}#}
+
+                {#$.post( url, { search: searchString, type: type }, function( data ) {#}
+                    {#console.log(data);#}
+                {#});#}
+
+            {#});#}
+
+        {#});#}
+    {#</script>#}
 {% endblock %}

@@ -2,9 +2,13 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\FbEndpoint;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Choice;
 
 class FbEndpointType extends AbstractType
 {
@@ -15,11 +19,10 @@ class FbEndpointType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fbId')
-            ->add('name')
-            ->add('city')
-            ->add('country')
-            ->add('type')
+            ->add('search', TextType::class, ['mapped' => false])
+            ->add('type', ChoiceType::class,[
+                'choices' => array_flip(FbEndpoint::TYPES)
+            ])
         ;
     }
     

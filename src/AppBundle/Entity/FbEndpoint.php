@@ -13,6 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class FbEndpoint
 {
+    const TYPE_GROUP = 1;
+    const TYPE_FANPAGE = 2;
+
+    const TYPES =[
+        self::TYPE_GROUP => 'grupa',
+        self::TYPE_FANPAGE => 'fanpage',
+    ];
+
     /**
      * @var int
      *
