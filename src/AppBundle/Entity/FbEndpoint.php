@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use FacebookBundle\Service\FacebookService;
 
 /**
  * FbEndpoint
@@ -13,12 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class FbEndpoint
 {
-    const TYPE_GROUP = 1;
-    const TYPE_FANPAGE = 2;
-
     const TYPES =[
-        self::TYPE_GROUP => 'grupa',
-        self::TYPE_FANPAGE => 'fanpage',
+        FacebookService::TYPE_GROUP => 'grupa',
+        FacebookService::TYPE_PAGE => 'fanpage',
     ];
 
     /**
@@ -61,7 +59,7 @@ class FbEndpoint
     /**
      * @var int
      *
-     * @ORM\Column(name="type", type="integer")
+     * @ORM\Column(name="type", type="string")
      */
     private $type;
 
@@ -248,11 +246,11 @@ class FbEndpoint
     /**
      * Add user
      *
-     * @param \AppBundle\Entity\FbEndpoint $user
+     * @param \AppBundle\Entity\User $user
      *
      * @return FbEndpoint
      */
-    public function addUser(\AppBundle\Entity\FbEndpoint $user)
+    public function addUser(\AppBundle\Entity\User $user)
     {
         $this->users[] = $user;
 
@@ -262,9 +260,9 @@ class FbEndpoint
     /**
      * Remove user
      *
-     * @param \AppBundle\Entity\FbEndpoint $user
+     * @param \AppBundle\Entity\User $user
      */
-    public function removeUser(\AppBundle\Entity\FbEndpoint $user)
+    public function removeUser(\AppBundle\Entity\User $user)
     {
         $this->users->removeElement($user);
     }

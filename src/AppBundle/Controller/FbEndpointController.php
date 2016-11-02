@@ -46,23 +46,80 @@ class FbEndpointController extends Controller
     public function newAction(Request $request)
     {
         $fbEndpoint = new FbEndpoint();
+        $user = $this->getUser();
         $form = $this->createForm('AppBundle\Form\FbEndpointType', $fbEndpoint, [
             'allow_extra_fields' => true,
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($fbEndpoint);
-            $em->flush();
+            $search = $form->get('search')->getData();
+            $type = $form->get('type')->getData();
 
-            return $this->redirectToRoute('fbendpoint_show', array('id' => $fbEndpoint->getId()));
+            $results = $this->get('app.facebook')->search($user, $search, $type);
+
+            return $this->render('fbendpoint/search_results.html.twig',[
+                'results' => $results['data'],
+                'type' => $type,
+            ]);
         }
+
+
 
         return $this->render('fbendpoint/new.html.twig', array(
             'fbEndpoint' => $fbEndpoint,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * Creates a new FbEndpoint entity.
+     *
+     * @Route("/add", name="fbendpoint_add")
+     * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function addAction(Request $request)
+    {
+        $post = $request->request;
+        $checkedValues = $post->get('checkedValues');
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+
+        foreach ($checkedValues as $value){
+            $values = explode('+', $value);
+            $fbId = $values[0];
+            $fbName = $values[1];
+            $type = $values[2];
+
+            $endpoint = $em->getRepository('AppBundle:FbEndpoint')->findOneBy(['fbId' => $fbId]);
+
+            if($endpoint === null) {
+                $endpoint = new FbEndpoint();
+                $endpoint->setFbId($fbId);
+                $endpoint->setName($fbName);
+                $endpoint->setType($type);
+            }
+
+            $endpointUsers = $endpoint->getUsers();
+
+            $usersArray = [];
+            if(!$endpointUsers->isEmpty()) {
+                foreach ($endpointUsers as $user) {
+                    $usersArray[] = $user;
+                }
+            }
+
+            if(!in_array($user, $usersArray)){
+                $endpoint->addUser($user);
+                $em->persist($endpoint);
+                $em->persist($user);
+            }
+
+        }
+        $em->flush();
+
+        return new JsonResponse(['success' => true]);
     }
 
     /**

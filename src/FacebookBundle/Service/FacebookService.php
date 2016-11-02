@@ -21,9 +21,12 @@ class FacebookService
 
     protected $fbApp;
 
+    const TYPE_GROUP = 'group';
+    const TYPE_PAGE = 'page';
+
     const VALID_SEARCH_TYPES =[
-        'page',
-        'group'
+        self::TYPE_PAGE,
+        self::TYPE_GROUP,
     ];
 
     /**

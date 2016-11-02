@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6">
+        <h1>Wyniki wyszukiwania</h1>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-2">
+            <div class="checkbox">
+                <a href="{{ path('fbendpoint_index') }}"><button type="button" class="btn btn-primary" id="button">Dodaj zaznaczone</button></a>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Link</th>
+                <th>Zaznacz</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for result in results %}
+            <tr>
+                <td>{{ result.name }}</td>
+                <td><a target="_blank" href="https://www.facebook.com/{{ result.id }}">www.facebook.com/{{ result.id }}</a></td>
+                <td>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="{{ result.id }}+{{ result.name }}+{{ type }}"></label>
+                </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('fbendpoint_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block addjavascripts %}
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#button').on('click', function (event) {
+            event.preventDefault();
+            var url = "{{ path('fbendpoint_add') }}";
+
+            var checkedValues = $('input:checkbox:checked').map(function() {
+                return this.value;
+            }).get();
+
+            $.post( url, { checkedValues: checkedValues}, function( data ) {
+                if(data['success'] == true) {
+                    window.location.href = "{{ path('fbendpoint_index') }}"
+                }
+            });
+        })
+    });
+    </script>
+{% endblock %}
