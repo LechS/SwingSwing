@@ -13,7 +13,7 @@
                 <th>City</th>
                 <th>Country</th>
                 <th>Type</th>
-                <th>Actions</th>
+                {#<th>Actions</th>#}
             </tr>
         </thead>
         <tbody>
@@ -26,16 +26,16 @@
                 <td>{{ fbEndpoint.city }}</td>
                 <td>{{ fbEndpoint.country }}</td>
                 <td>{{ fbEndpoint.type }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('fbendpoint_show', { 'id': fbEndpoint.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('fbendpoint_edit', { 'id': fbEndpoint.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
+                {#<td>#}
+                    {#<ul>#}
+                        {#<li>#}
+                            {#<a href="{{ path('fbendpoint_show', { 'id': fbEndpoint.id }) }}">show</a>#}
+                        {#</li>#}
+                        {#<li>#}
+                            {#<a href="{{ path('fbendpoint_edit', { 'id': fbEndpoint.id }) }}">edit</a>#}
+                        {#</li>#}
+                    {#</ul>#}
+                {#</td>#}
             </tr>
         {% endfor %}
         </tbody>

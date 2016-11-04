@@ -8,6 +8,7 @@
 
     <h4> Podaj wiadomość i link do publikacji </h4>
 
+
     </div>
 
     <div class="col-md-7">
@@ -19,7 +20,7 @@
             {{ form_label(form.message) }}
                 </div>
                 <div class="col-md-10">
-            {{ form_widget(form.message) }}
+            {{ form_widget(form.message, {'attr' :{'class' : 'form-control'}}) }}
             {{ form_errors(form.message) }}
                 </div>
             </div>
@@ -30,7 +31,7 @@
                 {{ form_label(form.link) }}
                 </div>
                 <div class="col-md-10">
-                    {{ form_widget(form.link) }}
+                    {{ form_widget(form.link, {'attr' :{'class' : 'form-control'}}) }}
                     {{ form_errors(form.link) }}
                 </div>
             </div>
@@ -44,8 +45,8 @@
 
     <hr>
 
-    <h4> Wybierz miejsca publikacji</h4>
-
+    <h2> Wybierze miejsca publikacji</h2>
+    <h5> Jeśli poniżej nie ma miejsca w którym chcesz opublikować post dodaj własne  <a href="{{ path('fbendpoint_new') }}"> tutaj</a> </h5>
     <table class="table" id="myTable">
         <thead>
         <tr>

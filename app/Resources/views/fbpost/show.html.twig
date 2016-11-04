@@ -1,36 +1,94 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>FbPost</h1>
+    <div class = 'row'>
 
-    <table>
+    <div class = 'col-md-5'>
+    <h1>Podgląd posta</h1>
+
+    </div>
+
+    <div class="col-md-7">
+        <br>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    Wiadomość:
+                </div>
+                <div class="col-md-10">
+                    {{ fbPost.message }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    Link:
+                </div>
+                <div class="col-md-10">
+                    {{ fbPost.link }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <hr>
+
+    <h2> Miejsca publikacji</h2>
+
+    <table class="table" id="myTable">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Link</th>
+            <th>Type</th>
+        </tr>
+        </thead>
+
         <tbody>
+        {% for point in fbPost.fbEndpoints %}
             <tr>
-                <th>Message</th>
-                <td>{{ fbPost.message }}</td>
+                <td>{{ point.name }}</td>
+                <td><a target="_blank" href="https://www.facebook.com/{{ point.fbId }}">www.facebook.com/{{ point.fbId }}</a></td>
+                <td>{{ point.type }}</td>
             </tr>
-            <tr>
-                <th>Link</th>
-                <td>{{ fbPost.link }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ fbPost.status }}</td>
-            </tr>
+        {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('fbpost_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('fbpost_edit', { 'id': fbPost.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    {#<ul>#}
+        {#<li>#}
+            {#<a href="{{ path('fbpost_index') }}">Back to the list</a>#}
+        {#</li>#}
+    {#</ul>#}
+{% endblock %}
+
+{% block addjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#myTable').DataTable({
+                "language": {
+                    "sProcessing": "Przetwarzanie...",
+                    "sLengthMenu": "Pokaż _MENU_ pozycji",
+                    "sZeroRecords": "Nie znaleziono pasujących pozycji",
+                    "sInfoThousands": " ",
+                    "sInfo": "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
+                    "sInfoEmpty": "Pozycji 0 z 0 dostępnych",
+                    "sInfoFiltered": "(filtrowanie spośród _MAX_ dostępnych pozycji)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Szukaj:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Pierwsza",
+                        "sPrevious": "Poprzednia",
+                        "sNext": "Następna",
+                        "sLast": "Ostatnia"
+                    }
+                }
+            });
+        });
+    </script>
 {% endblock %}

@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -78,11 +79,10 @@ class FbPostController extends Controller
      */
     public function showAction(FbPost $fbPost)
     {
-        $deleteForm = $this->createDeleteForm($fbPost);
 
         return $this->render('fbpost/show.html.twig', array(
             'fbPost' => $fbPost,
-            'delete_form' => $deleteForm->createView(),
+
         ));
     }
 
@@ -95,22 +95,33 @@ class FbPostController extends Controller
      */
     public function editAction(Request $request, FbPost $fbPost)
     {
-        $deleteForm = $this->createDeleteForm($fbPost);
+        $user = $this->getUser();
+
         $editForm = $this->createForm('AppBundle\Form\FbPostType', $fbPost);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($fbPost);
-            $em->flush();
+        if($request->isMethod('POST')){
+            $post = $request->request;
 
-            return $this->redirectToRoute('fbpost_edit', array('id' => $fbPost->getId()));
+            if($this->get('app.save.post')->editPost($user, $post, $fbPost)){
+                return new JsonResponse(['success' => true]);
+            };
+            return new JsonResponse(['success' => false]);
+        }
+
+        $endpoints = $this->getDoctrine()->getRepository('AppBundle:FbEndpoint')->findAll();
+
+        $checkedEndpointsObj = $fbPost->getFbEndpoints();
+
+        $checkedEndpoints = [];
+        foreach ($checkedEndpointsObj as $endpoint){
+            $checkedEndpoints[] = $endpoint->getFbId();
         }
 
         return $this->render('fbpost/edit.html.twig', array(
             'fbPost' => $fbPost,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form' => $editForm->createView(),
+            'endpoints' => $endpoints,
+            'checkedpoints' => $checkedEndpoints,
         ));
     }
 

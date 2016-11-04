@@ -16,7 +16,7 @@
         <tbody>
         {% for fbPost in fbPosts %}
             <tr>
-                <td><a href="{{ path('fbpost_show', { 'id': fbPost.id }) }}">{{ fbPost.id }}</a></td>
+                <td><a href="{{ path('fbpost_show', { 'id': fbPost.id }) }}">{{ loop.index }}</a></td>
                 <td>{{ fbPost.message }}</td>
                 <td>{{ fbPost.link }}</td>
                 <td>{{ fbPost.status }}</td>

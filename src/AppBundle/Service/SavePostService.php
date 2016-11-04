@@ -41,5 +41,35 @@ class SavePostService
         return true;
     }
 
+    public function editPost(User $user, ParameterBag $post, FbPost $fbPost){
+        $message = $post->get('message');
+        $link = $post->get('link');
+        $newEndpoints = $post->get('checkedValues');
+        $oldEndpoints = $fbPost->getFbEndpoints();
+
+        $fbPost->setLink($link);
+        $fbPost->setMessage($message);
+
+        foreach ($oldEndpoints as $endpoint ){
+            $fbPost->removeFbEndpoint($endpoint);
+            $this->em->persist($endpoint);
+        }
+        $this->em->persist($fbPost);
+
+        if(!empty($newEndpoints)) {
+            foreach ($newEndpoints as $fbId) {
+                $endpoint = $this->em->getRepository('AppBundle:FbEndpoint')->findOneBy(['fbId' => $fbId]);
+                $fbPost->addFbEndpoint($endpoint);
+
+                $this->em->persist($endpoint);
+            }
+        }
+
+        $this->em->persist($fbPost);
+        $this->em->flush();
+
+
+        return true;
+    }
 
 }
