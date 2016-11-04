@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -44,21 +45,27 @@ class FbPostController extends Controller
      */
     public function newAction(Request $request)
     {
+        $user = $this->getUser();
+
+        if($request->isMethod('POST')){
+            $post = $request->request;
+
+            if($this->get('app.save.post')->savePost($user, $post)){
+                return new JsonResponse(['success' => true]);
+            };
+            return new JsonResponse(['success' => false]);
+        }
+
         $fbPost = new FbPost();
         $form = $this->createForm('AppBundle\Form\FbPostType', $fbPost);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($fbPost);
-            $em->flush();
-
-            return $this->redirectToRoute('fbpost_show', array('id' => $fbPost->getId()));
-        }
+        $endpoints = $this->getDoctrine()->getRepository('AppBundle:FbEndpoint')->findAll();
 
         return $this->render('fbpost/new.html.twig', array(
             'fbPost' => $fbPost,
             'form' => $form->createView(),
+            'endpoints' => $endpoints,
         ));
     }
 

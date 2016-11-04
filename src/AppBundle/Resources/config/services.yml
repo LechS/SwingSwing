@@ -1,0 +1,4 @@
+services:
+    app.save.post:
+        class: AppBundle\Service\SavePostService
+        arguments: ['@doctrine.orm.entity_manager']

@@ -1,15 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>FbPost creation</h1>
+    <div class = 'row'>
 
+    <div class = 'col-md-5'>
+    <h1>Dodawanie postów</h1>
+
+    <h4> Podaj wiadomość i link do publikacji </h4>
+
+    </div>
+
+    <div class="col-md-7">
+        <br>
     {{ form_start(form) }}
         <div class="form-group">
             <div class="row">
-                <div class="col-md-1">
+                <div class="col-md-2">
             {{ form_label(form.message) }}
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-10">
             {{ form_widget(form.message) }}
             {{ form_errors(form.message) }}
                 </div>
@@ -17,21 +26,108 @@
         </div>
         <div class="form-group">
             <div class="row">
-                <div class="col-md-1">
+                <div class="col-md-2">
                 {{ form_label(form.link) }}
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-10">
                     {{ form_widget(form.link) }}
                     {{ form_errors(form.link) }}
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+
+        <button type="submit" class="btn btn-default" id="button">Zapisz</button>
+
     {{ form_end(form) }}
+    </div>
+    </div>
+
+    <hr>
+
+    <h4> Wybierz miejsca publikacji</h4>
+
+    <table class="table" id="myTable">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Link</th>
+            <th>Type</th>
+            <th>Zaznacz</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for point in endpoints %}
+            <tr>
+                <td>{{ point.name }}</td>
+                <td><a target="_blank" href="https://www.facebook.com/{{ point.fbId }}">www.facebook.com/{{ point.fbId }}</a></td>
+                <td>{{ point.type }}</td>
+                <td>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="{{ point.fbId }}"
+                            {% if checkedpoints[point.fbid] is defined and checkedpoints[point.fbid] is not null %}
+                                checked
+                            {% endif %}
+                         ></label>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
     {#<ul>#}
         {#<li>#}
             {#<a href="{{ path('fbpost_index') }}">Back to the list</a>#}
         {#</li>#}
     {#</ul>#}
+{% endblock %}
+
+{% block addjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#myTable').DataTable({
+                "language": {
+                    "sProcessing": "Przetwarzanie...",
+                    "sLengthMenu": "Pokaż _MENU_ pozycji",
+                    "sZeroRecords": "Nie znaleziono pasujących pozycji",
+                    "sInfoThousands": " ",
+                    "sInfo": "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
+                    "sInfoEmpty": "Pozycji 0 z 0 dostępnych",
+                    "sInfoFiltered": "(filtrowanie spośród _MAX_ dostępnych pozycji)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Szukaj:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Pierwsza",
+                        "sPrevious": "Poprzednia",
+                        "sNext": "Następna",
+                        "sLast": "Ostatnia"
+                    }
+                }
+            });
+
+            $('#button').on('click', function (event) {
+                event.preventDefault();
+                var url = "{{ path('fbpost_new') }}";
+                var message = $("#{{ form.message.vars.id }}").val();
+                var link = $("#{{ form.link.vars.id }}").val();
+
+                var checkedValues = $('input:checkbox:checked').map(function() {
+                    return this.value;
+                }).get();
+
+                $.post( url, {
+                    checkedValues: checkedValues,
+                    message: message,
+                    link:   link
+                }, function( data ) {
+                    if(data['success'] == true) {
+                        window.location.href = "{{ path('fbpost_index') }}"
+                    }
+                });
+            })
+        });
+    </script>
 {% endblock %}

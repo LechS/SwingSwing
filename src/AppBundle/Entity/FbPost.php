@@ -85,7 +85,8 @@ class FbPost
     /**
      * Set user
      *
-     * @param \stdClass $user
+     * @param \AppBundle\Entity\User
+     * $user
      *
      * @return FbPost
      */
@@ -104,30 +105,6 @@ class FbPost
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * Set fbEndpoint
-     *
-     * @param \stdClass $fbEndpoint
-     *
-     * @return FbPost
-     */
-    public function setFbEndpoint($fbEndpoint)
-    {
-        $this->fbEndpoint = $fbEndpoint;
-
-        return $this;
-    }
-
-    /**
-     * Get fbEndpoint
-     *
-     * @return FbEndpoint
-     */
-    public function getFbEndpoint()
-    {
-        return $this->fbEndpoint;
     }
 
     /**

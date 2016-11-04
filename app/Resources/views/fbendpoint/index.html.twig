@@ -6,9 +6,10 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Lp</th>
                 <th>Fbid</th>
                 <th>Name</th>
+                <th>Link</th>
                 <th>City</th>
                 <th>Country</th>
                 <th>Type</th>
@@ -18,9 +19,10 @@
         <tbody>
         {% for fbEndpoint in fbEndpoints %}
             <tr>
-                <td><a href="{{ path('fbendpoint_show', { 'id': fbEndpoint.id }) }}">{{ fbEndpoint.id }}</a></td>
+                <td><a href="{{ path('fbendpoint_show', { 'id': fbEndpoint.id }) }}">{{ loop.index }}</a></td>
                 <td>{{ fbEndpoint.fbId }}</td>
                 <td>{{ fbEndpoint.name }}</td>
+                <td><a target ="_blank" href="https://www.facebook.com/{{ fbEndpoint.fbId }}">www.facebook.com/{{ fbEndpoint.fbId }}</a></td>
                 <td>{{ fbEndpoint.city }}</td>
                 <td>{{ fbEndpoint.country }}</td>
                 <td>{{ fbEndpoint.type }}</td>
