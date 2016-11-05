@@ -17,24 +17,13 @@
                 <th>Name</th>
                 <td>{{ fbPage.name }}</td>
             </tr>
-            <tr>
-                <th>Accesstoken</th>
-                <td>{{ fbPage.accessToken }}</td>
-            </tr>
+
         </tbody>
     </table>
 
     <ul>
         <li>
             <a href="{{ path('fbpage_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('fbpage_edit', { 'id': fbPage.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
         </li>
     </ul>
 {% endblock %}

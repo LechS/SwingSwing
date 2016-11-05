@@ -21,7 +21,8 @@ class SavePostService
 
         $message = $post->get('message');
         $link = $post->get('link');
-        $endpoints = $post->get('checkedValues');
+        $endpoints = @$post->get('checkedValues');
+        $publishAs = $post->get('publishAs');
 
         $post = new FbPost();
 
@@ -29,11 +30,19 @@ class SavePostService
         $post->setMessage($message);
         $post->setUser($user);
 
-        foreach ($endpoints as $fbId){
-            $endpoint = $this->em->getRepository('AppBundle:FbEndpoint')->findOneBy(['fbId' => $fbId]);
-            $post->addFbEndpoint($endpoint);
+        if(!empty($endpoints)) {
+            foreach ($endpoints as $fbId) {
+                $endpoint = $this->em->getRepository('AppBundle:FbEndpoint')->findOneBy(['fbId' => $fbId]);
+                $post->addFbEndpoint($endpoint);
+                $this->em->persist($endpoint);
+            }
+        }
 
-            $this->em->persist($endpoint);
+        if($publishAs != 'user'){
+            $page = $this->em->getRepository('AppBundle:FbPage')->findOneBy(['user' => $user, 'fbId' => $publishAs]);
+            $post->setFbPage($page);
+            $this->em->persist($page);
+
         }
         $this->em->persist($post);
         $this->em->flush();
@@ -46,6 +55,7 @@ class SavePostService
         $link = $post->get('link');
         $newEndpoints = $post->get('checkedValues');
         $oldEndpoints = $fbPost->getFbEndpoints();
+        $publishAs = $post->get('publishAs');
 
         $fbPost->setLink($link);
         $fbPost->setMessage($message);
@@ -63,6 +73,15 @@ class SavePostService
 
                 $this->em->persist($endpoint);
             }
+        }
+
+        if($publishAs != 'user'){
+            $page = $this->em->getRepository('AppBundle:FbPage')->findOneBy(['user' => $user, 'fbId' => $publishAs]);
+
+            $fbPost->setFbPage($page);
+            $this->em->persist($page);
+        }elseif($publishAs == 'user'){
+            $fbPost->setFbPage(null);
         }
 
         $this->em->persist($fbPost);

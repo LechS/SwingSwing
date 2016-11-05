@@ -63,11 +63,13 @@ class FbPostController extends Controller
         $form->handleRequest($request);
 
         $endpoints = $this->getDoctrine()->getRepository('AppBundle:FbEndpoint')->findAll();
+        $userPages = $this->getDoctrine()->getRepository('AppBundle:FbPage')->findBy(['user' => $user, 'confirmed' => true]);
 
         return $this->render('fbpost/new.html.twig', array(
             'fbPost' => $fbPost,
             'form' => $form->createView(),
             'endpoints' => $endpoints,
+            'pages' => $userPages,
         ));
     }
 

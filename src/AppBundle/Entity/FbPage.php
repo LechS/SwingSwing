@@ -37,11 +37,11 @@ class FbPage
     private $name;
 
     /**
-     * @var string
+     * @var boolean
      *
-     * @ORM\Column(name="access_token", type="string", length=255)
+     * @ORM\Column(name="confirmed", type="smallint")
      */
-    private $accessToken;
+    private $confirmed = false;
 
 
     /**
@@ -120,30 +120,6 @@ class FbPage
     }
 
     /**
-     * Set accessToken
-     *
-     * @param string $accessToken
-     *
-     * @return FbPage
-     */
-    public function setAccessToken($accessToken)
-    {
-        $this->accessToken = $accessToken;
-
-        return $this;
-    }
-
-    /**
-     * Get accessToken
-     *
-     * @return string
-     */
-    public function getAccessToken()
-    {
-        return $this->accessToken;
-    }
-
-    /**
      * Set user
      *
      * @param \AppBundle\Entity\User $user
@@ -200,5 +176,29 @@ class FbPage
     public function getFbPosts()
     {
         return $this->fbPosts;
+    }
+
+    /**
+     * Set confirmed
+     *
+     * @param integer $confirmed
+     *
+     * @return FbPage
+     */
+    public function setConfirmed($confirmed)
+    {
+        $this->confirmed = $confirmed;
+
+        return $this;
+    }
+
+    /**
+     * Get confirmed
+     *
+     * @return integer
+     */
+    public function getConfirmed()
+    {
+        return $this->confirmed;
     }
 }

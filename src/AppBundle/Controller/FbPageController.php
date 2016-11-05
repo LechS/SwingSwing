@@ -110,7 +110,7 @@ class FbPageController extends Controller
                     $fbPage = new FbPage();
                 }
                 $fbPage->setName($fbName);
-                $fbPage->setAccessToken($accessToken);
+                $fbPage->setConfirmed(true);
 
                 $em->persist($fbPage);
             }

@@ -229,34 +229,25 @@ class FbPost
         return $this->fbEndpoints;
     }
 
+
     /**
-     * Add fbPage
+     * Set fbPage
      *
      * @param \AppBundle\Entity\FbPage $fbPage
      *
      * @return FbPost
      */
-    public function addFbPage(\AppBundle\Entity\FbPage $fbPage)
+    public function setFbPage(\AppBundle\Entity\FbPage $fbPage = null)
     {
-        $this->fbPage[] = $fbPage;
+        $this->fbPage = $fbPage;
 
         return $this;
     }
 
     /**
-     * Remove fbPage
-     *
-     * @param \AppBundle\Entity\FbPage $fbPage
-     */
-    public function removeFbPage(\AppBundle\Entity\FbPage $fbPage)
-    {
-        $this->fbPage->removeElement($fbPage);
-    }
-
-    /**
      * Get fbPage
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \AppBundle\Entity\FbPage
      */
     public function getFbPage()
     {

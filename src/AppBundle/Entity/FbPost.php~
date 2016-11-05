@@ -70,7 +70,7 @@ class FbPost
     private $fbEndpoints;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\FbPage", inversedBy="fbPosts")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FbPage", inversedBy="fbPosts")
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
      */
     private $fbPage;
@@ -228,4 +228,5 @@ class FbPost
     {
         return $this->fbEndpoints;
     }
+
 }
