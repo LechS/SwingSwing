@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use FacebookBundle\Service\FacebookService;
 
 /**
  * FbEndpoint
@@ -13,6 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class FbEndpoint
 {
+    const TYPES =[
+        FacebookService::TYPE_GROUP => 'grupa',
+        FacebookService::TYPE_PAGE => 'fanpage',
+    ];
+
     /**
      * @var int
      *
@@ -53,7 +59,7 @@ class FbEndpoint
     /**
      * @var int
      *
-     * @ORM\Column(name="type", type="integer")
+     * @ORM\Column(name="type", type="string")
      */
     private $type;
 
@@ -63,13 +69,14 @@ class FbEndpoint
     private $fbPosts;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\FbEndpoint", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="fbEndpoints")
      * @ORM\JoinTable(name="users_endpoints")
      */
     private $users;
 
     public function __construct() {
         $this->fbPosts = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -234,5 +241,39 @@ class FbEndpoint
     public function getFbPosts()
     {
         return $this->fbPosts;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return FbEndpoint
+     */
+    public function addUser(\AppBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \AppBundle\Entity\User $user
+     */
+    public function removeUser(\AppBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

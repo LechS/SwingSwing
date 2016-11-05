@@ -29,8 +29,9 @@ class FbPostController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
 
-        $fbPosts = $em->getRepository('AppBundle:FbPost')->findAll();
+        $fbPosts = $em->getRepository('AppBundle:FbPost')->findBy(['user' => $user]);
 
         return $this->render('fbpost/index.html.twig', array(
             'fbPosts' => $fbPosts,

@@ -1,3 +1,7 @@
+app_fb_page:
+    resource: "@AppBundle/Controller/FbPageController.php"
+    type:     annotation
+
 app_user:
     resource: "@AppBundle/Controller/UserController.php"
     type:     annotation

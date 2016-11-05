@@ -48,7 +48,14 @@
     $(document).ready(function() {
         $('#button').on('click', function (event) {
             event.preventDefault();
-            var url = "{{ path('fbendpoint_add') }}";
+
+            {% if pageOwner is defined and pageOwner == true %}
+                var url = "{{ path('fbpage_add') }}";
+                var redirect = "{{ path('fbpage_index') }}";
+            {% else %}
+                var url = "{{ path('fbendpoint_add') }}";
+                var redirect = "{{ path('fbendpoint_index') }}";
+            {% endif %}
 
             var checkedValues = $('input:checkbox:checked').map(function() {
                 return this.value;
@@ -56,7 +63,9 @@
 
             $.post( url, { checkedValues: checkedValues}, function( data ) {
                 if(data['success'] == true) {
-                    window.location.href = "{{ path('fbendpoint_index') }}"
+                    window.location.href = redirect
+                }else{
+                    alert(data['message']);
                 }
             });
         })

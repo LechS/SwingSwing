@@ -17,7 +17,7 @@ class DefaultController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function facebookLoginSuccessAction()
+    public function facebookLoginSuccessAction(Request $request)
     {
         if(!$loggedUser = $this->getUser()){
             return $this->redirect('homepage');
@@ -25,7 +25,15 @@ class DefaultController extends Controller
 
         $fbService = $this->get('app.facebook');
         $fbService->setLongLivedAccessToken($loggedUser);
-        $fbService->checkPermissions($fbService->getPermissions($loggedUser));
+
+        $checkPerms = $fbService->checkPermissions($fbService->getPermissions($loggedUser));
+
+        if(!$checkPerms){
+            $this->get('security.token_storage')->setToken(null);
+            $request->getSession()->invalidate();
+
+            $this->addFlash('notice', 'Zaloguj się ponownie i nadaj aplikacji wszystkie uprawnienia');
+        }
 
         return $this->redirectToRoute('homepage');
     }

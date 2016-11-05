@@ -69,6 +69,13 @@ class FbPost
      */
     private $fbEndpoints;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FbPage", inversedBy="fbPosts")
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
+     */
+    private $fbPage;
+
+
     public function __construct() {
         $this->fbEndpoints = new ArrayCollection();
     }
@@ -220,5 +227,39 @@ class FbPost
     public function getFbEndpoints()
     {
         return $this->fbEndpoints;
+    }
+
+    /**
+     * Add fbPage
+     *
+     * @param \AppBundle\Entity\FbPage $fbPage
+     *
+     * @return FbPost
+     */
+    public function addFbPage(\AppBundle\Entity\FbPage $fbPage)
+    {
+        $this->fbPage[] = $fbPage;
+
+        return $this;
+    }
+
+    /**
+     * Remove fbPage
+     *
+     * @param \AppBundle\Entity\FbPage $fbPage
+     */
+    public function removeFbPage(\AppBundle\Entity\FbPage $fbPage)
+    {
+        $this->fbPage->removeElement($fbPage);
+    }
+
+    /**
+     * Get fbPage
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFbPage()
+    {
+        return $this->fbPage;
     }
 }

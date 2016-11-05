@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>FbPage list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Lp</th>
+                <th>Fbid</th>
+                <th>Name</th>
+                <th>Link</th>
+                {#<th>Actions</th>#}
+            </tr>
+        </thead>
+        <tbody>
+        {% for fbPage in fbPages %}
+            <tr>
+                <td><a href="{{ path('fbpage_show', { 'id': fbPage.id }) }}">{{ loop.index }}</a></td>
+                <td>{{ fbPage.fbId }}</td>
+                <td>{{ fbPage.name }}</td>
+                <td><a target="_blank" href="https://www.facebook.com/{{ fbPage.fbId }}">www.facebook.com/{{ fbPage.fbId }}</a></td>
+                {#<td>#}
+                    {#<ul>#}
+                        {#<li>#}
+                            {#<a href="{{ path('fbpage_show', { 'id': fbPage.id }) }}">show</a>#}
+                        {#</li>#}
+                        {#<li>#}
+                            {#<a href="{{ path('fbpage_edit', { 'id': fbPage.id }) }}">edit</a>#}
+                        {#</li>#}
+                    {#</ul>#}
+                {#</td>#}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('fbpage_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

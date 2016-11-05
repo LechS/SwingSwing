@@ -45,6 +45,13 @@
 <div id="wrapper">
     {% include 'default/navbar.html.twig' %}
     <div id="page-wrapper">
+
+        {% for flashMessage in app.session.flashbag.get('error') %}
+
+            {{ flashMessage }}
+
+        {% endfor %}
+
     {% block body %}
     {% endblock %}
     </div>

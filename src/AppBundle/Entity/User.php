@@ -43,6 +43,11 @@ class User extends BaseUser
     private $fbPosts;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FbPage", mappedBy="user")
+     */
+    private $fbPages;
+
+    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\FbEndpoint", mappedBy="users")
      */
     private $fbEndpoints;
@@ -216,5 +221,39 @@ class User extends BaseUser
     public function getFbEndpoints()
     {
         return $this->fbEndpoints;
+    }
+
+    /**
+     * Add fbPage
+     *
+     * @param \AppBundle\Entity\FbPage $fbPage
+     *
+     * @return User
+     */
+    public function addFbPage(\AppBundle\Entity\FbPage $fbPage)
+    {
+        $this->fbPages[] = $fbPage;
+
+        return $this;
+    }
+
+    /**
+     * Remove fbPage
+     *
+     * @param \AppBundle\Entity\FbPage $fbPage
+     */
+    public function removeFbPage(\AppBundle\Entity\FbPage $fbPage)
+    {
+        $this->fbPages->removeElement($fbPage);
+    }
+
+    /**
+     * Get fbPages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFbPages()
+    {
+        return $this->fbPages;
     }
 }

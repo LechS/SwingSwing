@@ -186,4 +186,32 @@ class FacebookService
         return $response->getDecodedBody();
     }
 
+    /**
+     * @param User $user
+     * @param $pageId
+     * @return array
+     */
+    public function getPageAccessToken(User $user, $pageId){
+        $fb = $this->facebook;
+        $fbApp = $this->fbApp;
+
+        $fb->setDefaultAccessToken($user->getFacebookLongLivedAccessToken());
+
+        $request = new FacebookRequest($fbApp, $user->getFacebookLongLivedAccessToken(), 'GET', "/{$pageId}", ['fields' => 'access_token']);
+
+        try {
+            $response = $fb->getClient()->sendRequest($request);;
+        } catch(FacebookResponseException $e) {
+            // When Graph returns an error
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch(FacebookSDKException $e) {
+            // When validation fails or other local issues
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
+
+        return $response->getDecodedBody();
+    }
+
 }
