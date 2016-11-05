@@ -128,37 +128,56 @@ class FbPostController extends Controller
     /**
      * Deletes a FbPost entity.
      *
-     * @Route("/{id}", name="fbpost_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/usun", name="fbpost_delete")
+     * @Method({"GET", "POST"})
      * @Security("has_role('ROLE_USER')")
      */
     public function deleteAction(Request $request, FbPost $fbPost)
     {
-        $form = $this->createDeleteForm($fbPost);
-        $form->handleRequest($request);
+        $fbPost->setStatus(FbPost::STATUS_DELETED);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($fbPost);
-            $em->flush();
-        }
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($fbPost);
+
+        $em->flush();
 
         return $this->redirectToRoute('fbpost_index');
     }
 
     /**
-     * Creates a form to delete a FbPost entity.
      *
-     * @param FbPost $fbPost The FbPost entity
-     *
-     * @return \Symfony\Component\Form\Form The form
+     * @Route("/{id}/podobna", name="fbpost_similar")
+     * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
      */
-    private function createDeleteForm(FbPost $fbPost)
+    public function similarAction(Request $request, FbPost $fbPost)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('fbpost_delete', array('id' => $fbPost->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
+        $fbPostNew = $this->get('app.save.post')->similarPost($fbPost);
+
+        return $this->redirectToRoute('fbpost_edit', ['id' => $fbPostNew->getId() ]);
     }
+
+    /**
+     *
+     * @Route("/{id}/publikuj", name="fbpost_publish")
+     * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function publishAction(Request $request, FbPost $fbPost)
+    {
+        $user = $this->getUser();
+        $message = $fbPost->getMessage();
+        $link = $fbPost->getLink();
+
+        $endpoints = $fbPost->getFbEndpoints();
+
+//        die('uwaga publikacja!');
+        foreach ($endpoints as $endpoint) {
+            $this->get('app.facebook')->publish($user->getFacebookLongLivedAccessToken(), $endpoint->getId(), $message, $link);
+        }
+
+        return $this->redirectToRoute('fbpost_index');
+    }
+
 }

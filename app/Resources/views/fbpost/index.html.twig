@@ -22,12 +22,14 @@
                 <td>{{ fbPost.status }}</td>
                 <td>
                     <ul>
-                        <li>
-                            <a href="{{ path('fbpost_show', { 'id': fbPost.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('fbpost_edit', { 'id': fbPost.id }) }}">edit</a>
-                        </li>
+                            <a href="{{ path('fbpost_show', { 'id': fbPost.id }) }}">pokaż</a>
+                        {% if fbPost.status == constant('AppBundle\\Entity\\FbPost::STATUS_NEW') %}
+                            <a href="{{ path('fbpost_edit', { 'id': fbPost.id }) }}">edycja</a>
+                            <a href="{{ path('fbpost_publish', { 'id': fbPost.id }) }}">publikuj</a>
+                        {% else %}
+                            <a href="{{ path('fbpost_similar', { 'id': fbPost.id }) }}">podobne</a>
+                        {% endif %}
+                            <a href="{{ path('fbpost_delete', { 'id': fbPost.id }) }}">usuń</a>
                     </ul>
                 </td>
             </tr>

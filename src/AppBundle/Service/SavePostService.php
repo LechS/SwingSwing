@@ -72,4 +72,17 @@ class SavePostService
         return true;
     }
 
+    public function similarPost(FbPost $fbPost){
+
+        $newFbPost = clone $fbPost;
+        $newFbPost->setId(null);
+        $newFbPost->setStatus(FbPost::STATUS_NEW);
+
+        $this->em->persist($newFbPost);
+        $this->em->flush();
+
+        return $newFbPost;
+
+    }
+
 }

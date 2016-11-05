@@ -119,15 +119,15 @@ class FacebookService
     }
 
     /**
-     * @param User $user
+     * @param $accessToken
      * @param $id
      * @param null $message
      * @param null $link
      * @return \Facebook\GraphNodes\GraphNode
      */
-    public function publish(User $user, $id, $message = null, $link = null){
+    public function publish($accessToken, $id, $message = null, $link = null){
         $fb = $this->facebook;
-        $fb->setDefaultAccessToken($user->getFacebookLongLivedAccessToken());
+        $fb->setDefaultAccessToken($accessToken);
 
         $data = [
             'link' => $link,

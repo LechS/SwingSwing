@@ -13,12 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class FbPost
 {
+    const STATUS_DELETED = -1;
     const STATUS_NEW = 0;
     const STATUS_DRAFT = 1;
     const STATUS_TO_SEND = 2;
     const STATUS_SENDING = 3;
 
     const STATUSES = [
+        self::STATUS_DELETED => 'usunięty',
         self::STATUS_NEW => 'nowy',
         self::STATUS_DRAFT => 'draft',
         self::STATUS_TO_SEND => 'do wysłania',
@@ -28,7 +30,7 @@ class FbPost
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -80,6 +82,13 @@ class FbPost
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id){
+
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
