@@ -30,6 +30,21 @@
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    Publikuj jako:
+                </div>
+                <div class="col-md-10">
+                    {% if fbPost.fbPage == null %}
+                        JA
+                    {% else %}
+                        {{ fbPost.fbPage.name }}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
 
     </div>
     </div>

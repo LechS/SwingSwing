@@ -36,6 +36,31 @@
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label>Publikuj jako</label>
+                </div>
+                <div class="col-md-10">
+                    <select class="form-control" id="sel1">
+                        {% if fbPost.fbPage == null %}
+                            <option value="user">JA</option>
+                            {% for page in pages %}
+                                <option value="{{ page.fbId }}">{{ page.name }}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="{{ fbPost.fbPage.fbId }}"> {{ fbPost.fbPage.name }} </option>
+                            {% for page in pages %}
+                                {% if fbPost.fbPage.fbId != page.fbId %}
+                                    <option value="{{ page.fbId }}">{{ page.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            <option value="user">JA</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+        </div>
 
         <button type="submit" class="btn btn-default" id="button">Zapisz</button>
 
@@ -113,6 +138,7 @@
                 var url = "{{ path('fbpost_edit', {'id' : fbPost.id}) }}";
                 var message = $("#{{ form.message.vars.id }}").val();
                 var link = $("#{{ form.link.vars.id }}").val();
+                var option = $("#sel1").find(":selected").val();
 
                 var checkedValues = $('input:checkbox:checked').map(function() {
                     return this.value;
@@ -121,7 +147,8 @@
                 $.post( url, {
                     checkedValues: checkedValues,
                     message: message,
-                    link:   link
+                    link:   link,
+                    publishAs: option
                 }, function( data ) {
                     if(data['success'] == true) {
                         window.location.href = "{{ path('fbpost_index') }}"

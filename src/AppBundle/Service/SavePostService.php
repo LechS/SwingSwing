@@ -77,7 +77,6 @@ class SavePostService
 
         if($publishAs != 'user'){
             $page = $this->em->getRepository('AppBundle:FbPage')->findOneBy(['user' => $user, 'fbId' => $publishAs]);
-
             $fbPost->setFbPage($page);
             $this->em->persist($page);
         }elseif($publishAs == 'user'){

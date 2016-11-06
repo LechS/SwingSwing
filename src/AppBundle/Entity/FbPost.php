@@ -71,7 +71,7 @@ class FbPost
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FbPage", inversedBy="fbPosts")
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=true)
      */
     private $fbPage;
 
@@ -233,11 +233,11 @@ class FbPost
     /**
      * Set fbPage
      *
-     * @param \AppBundle\Entity\FbPage $fbPage
+     * @param $fbPage
      *
      * @return FbPost
      */
-    public function setFbPage(\AppBundle\Entity\FbPage $fbPage = null)
+    public function setFbPage($fbPage = null)
     {
         $this->fbPage = $fbPage;
 

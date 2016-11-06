@@ -119,12 +119,14 @@ class FbPostController extends Controller
         foreach ($checkedEndpointsObj as $endpoint){
             $checkedEndpoints[] = $endpoint->getFbId();
         }
+        $userPages = $this->getDoctrine()->getRepository('AppBundle:FbPage')->findBy(['user' => $user, 'confirmed' => true]);
 
         return $this->render('fbpost/edit.html.twig', array(
             'fbPost' => $fbPost,
             'form' => $editForm->createView(),
             'endpoints' => $endpoints,
             'checkedpoints' => $checkedEndpoints,
+            'pages' => $userPages,
         ));
     }
 
@@ -175,9 +177,9 @@ class FbPostController extends Controller
 
         $endpoints = $fbPost->getFbEndpoints();
 
-//        die('uwaga publikacja!');
         foreach ($endpoints as $endpoint) {
             $this->get('app.facebook')->publish($user->getFacebookLongLivedAccessToken(), $endpoint->getId(), $message, $link);
+            sleep(1);
         }
 
         return $this->redirectToRoute('fbpost_index');
