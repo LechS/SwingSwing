@@ -28,7 +28,7 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-md-2">
-                    <label>Prawidłowy adres</label>
+                    <label>Prawidłowy adres www</label>
                 </div>
                 <div class="col-md-10">
                     {{ form_widget(form.link, {'attr' :{'class' : 'form-control'}}) }}
@@ -48,7 +48,7 @@
                             {#<option value="{{ page.fbId }}">{{ page.name }}</option>#}
                         {#{% endfor %}#}
                     </select>
-                    <h5>Strony, którym zarządzasz możesz dodac<a href="{{ path('fbpage_new') }}"> tutaj</a></h5>
+                    {#<h5>Strony, którym zarządzasz możesz dodac<a href="{{ path('fbpage_new') }}"> tutaj</a></h5>#}
                 </div>
             </div>
         </div>

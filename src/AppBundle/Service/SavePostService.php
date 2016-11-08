@@ -95,7 +95,15 @@ class SavePostService
         $newFbPost = clone $fbPost;
         $newFbPost->setId(null);
         $newFbPost->setStatus(FbPost::STATUS_NEW);
+        $this->em->persist($newFbPost);
 
+        $endpoints = $fbPost->getFbEndpoints();
+
+//        foreach ($endpoints as $endpoint) {
+//            $endpoint = $this->em->getRepository('AppBundle:FbEndpoint')->findOneBy(['fbId' => $endpoint->getFbId()]);
+//            $newFbPost->addFbEndpoint($endpoint);
+//            $this->em->persist($endpoint);
+//        }
         $this->em->persist($newFbPost);
         $this->em->flush();
 
