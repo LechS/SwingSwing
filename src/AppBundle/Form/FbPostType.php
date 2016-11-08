@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +18,7 @@ class FbPostType extends AbstractType
     {
         $builder
             ->add('message')
-            ->add('link')
+            ->add('link', UrlType::class)
 //            ->add('status')
 //            ->add('user')
 //            ->add('fbEndpoints')

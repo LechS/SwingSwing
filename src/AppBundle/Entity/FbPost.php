@@ -18,6 +18,7 @@ class FbPost
     const STATUS_DRAFT = 1;
     const STATUS_TO_SEND = 2;
     const STATUS_SENDING = 3;
+    const STATUS_SEND = 1;
 
     const STATUSES = [
         self::STATUS_DELETED => 'usunięty',
@@ -25,6 +26,7 @@ class FbPost
         self::STATUS_DRAFT => 'draft',
         self::STATUS_TO_SEND => 'do wysłania',
         self::STATUS_SENDING => 'wysyłany',
+        self::STATUS_SEND => 'wysłany',
     ];
 
     /**

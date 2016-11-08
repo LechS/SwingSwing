@@ -15,7 +15,7 @@ use FacebookBundle\Service\FacebookService;
 class FbEndpoint
 {
     const TYPES =[
-        FacebookService::TYPE_GROUP => 'grupa',
+//        FacebookService::TYPE_GROUP => 'grupa',
         FacebookService::TYPE_PAGE => 'fanpage',
     ];
 

@@ -43,20 +43,20 @@
                 </div>
                 <div class="col-md-10">
                     <select class="form-control" id="sel1">
-                        {% if fbPost.fbPage == null %}
+                        {#{% if fbPost.fbPage == null %}#}
                             <option value="user">JA</option>
-                            {% for page in pages %}
-                                <option value="{{ page.fbId }}">{{ page.name }}</option>
-                            {% endfor %}
-                        {% else %}
-                            <option value="{{ fbPost.fbPage.fbId }}"> {{ fbPost.fbPage.name }} </option>
-                            {% for page in pages %}
-                                {% if fbPost.fbPage.fbId != page.fbId %}
-                                    <option value="{{ page.fbId }}">{{ page.name }}</option>
-                                {% endif %}
-                            {% endfor %}
-                            <option value="user">JA</option>
-                        {% endif %}
+                            {#{% for page in pages %}#}
+                                {#<option value="{{ page.fbId }}">{{ page.name }}</option>#}
+                            {#{% endfor %}#}
+                        {#{% else %}#}
+                            {#<option value="{{ fbPost.fbPage.fbId }}"> {{ fbPost.fbPage.name }} </option>#}
+                            {#{% for page in pages %}#}
+                                {#{% if fbPost.fbPage.fbId != page.fbId %}#}
+                                    {#<option value="{{ page.fbId }}">{{ page.name }}</option>#}
+                                {#{% endif %}#}
+                            {#{% endfor %}#}
+                            {#<option value="user">JA</option>#}
+                        {#{% endif %}#}
                     </select>
                 </div>
             </div>

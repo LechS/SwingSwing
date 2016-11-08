@@ -109,7 +109,9 @@ class FbPageController extends Controller
                 if(!$fbPage) {
                     $fbPage = new FbPage();
                 }
+                $fbPage->setFbId($fbId);
                 $fbPage->setName($fbName);
+                $fbPage->setUser($user);
                 $fbPage->setConfirmed(true);
 
                 $em->persist($fbPage);

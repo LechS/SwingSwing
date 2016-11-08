@@ -52,6 +52,12 @@
 
         {% endfor %}
 
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+
+            {{ flashMessage }}
+
+        {% endfor %}
+
     {% block body %}
     {% endblock %}
     </div>

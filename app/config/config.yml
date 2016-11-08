@@ -84,5 +84,5 @@ hwi_oauth:
             type:                facebook
             client_id:           "%facebook_app_id%"
             client_secret:       "%facebook_app_secret%"
-            scope:               "publish_actions, pages_show_list, manage_pages"
+            scope:               "publish_actions, pages_show_list, manage_pages, user_managed_groups"
 

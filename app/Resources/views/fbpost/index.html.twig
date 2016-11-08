@@ -19,11 +19,12 @@
         </thead>
         <tbody>
         {% for fbPost in fbPosts %}
+            {% if fbPost.status >= 0 %}
             <tr>
                 <td><a href="{{ path('fbpost_show', { 'id': fbPost.id }) }}">{{ loop.index }}</a></td>
                 <td>{{ fbPost.message }}</td>
                 <td>{{ fbPost.link }}</td>
-                <td>{{ fbPost.status }}</td>
+                <td>{{ constant('AppBundle\\Entity\\FbPost::STATUSES')[fbPost.status] }}</td>
                 <td>
                     <ul>
                             <a href="{{ path('fbpost_show', { 'id': fbPost.id }) }}">pokaż</a>
@@ -37,6 +38,7 @@
                     </ul>
                 </td>
             </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
