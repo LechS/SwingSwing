@@ -35,6 +35,6 @@ class DefaultController extends Controller
             $this->addFlash('notice', 'Zaloguj się ponownie i nadaj aplikacji wszystkie uprawnienia');
         }
 
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('fbpost_index');
     }
 }

@@ -1,8 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>FbPost list</h1>
-
+    <h1>Lista postów</h1>
+    <ul>
+        <li>
+            <a href="{{ path('fbpost_new') }}">Dodaj nowy post</a>
+        </li>
+    </ul>
     <table class="table">
         <thead>
             <tr>
@@ -36,9 +40,4 @@
         {% endfor %}
         </tbody>
     </table>
-    <ul>
-        <li>
-            <a href="{{ path('fbpost_new') }}">Create a new entry</a>
-        </li>
-    </ul>
 {% endblock %}
