@@ -2,3 +2,9 @@ services:
     app.save.post:
         class: AppBundle\Service\SavePostService
         arguments: ['@doctrine.orm.entity_manager']
+    app.rabbitmq.service:
+        class: AppBundle\Service\RabbitMQService
+        arguments: ['@doctrine.orm.entity_manager', '@old_sound_rabbit_mq.request_queue_producer', '@app.requestqueue.service']
+    app.requestqueue.service:
+        class: AppBundle\Service\RequestQueueService
+        arguments: ['@doctrine.orm.entity_manager', '@app.facebook']

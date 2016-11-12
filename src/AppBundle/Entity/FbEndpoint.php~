@@ -15,7 +15,7 @@ use FacebookBundle\Service\FacebookService;
 class FbEndpoint
 {
     const TYPES =[
-        FacebookService::TYPE_GROUP => 'grupa',
+//        FacebookService::TYPE_GROUP => 'grupa',
         FacebookService::TYPE_PAGE => 'fanpage',
     ];
 
@@ -74,9 +74,17 @@ class FbEndpoint
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FbQueue", mappedBy="fbEndpoint")
+     */
+    private $fbQueues;
+
+
     public function __construct() {
         $this->fbPosts = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->fbQueues = new ArrayCollection();
+
     }
 
     /**
@@ -275,5 +283,39 @@ class FbEndpoint
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Add fbQueue
+     *
+     * @param \AppBundle\Entity\FbQueue $fbQueue
+     *
+     * @return FbEndpoint
+     */
+    public function addFbQueue(\AppBundle\Entity\FbQueue $fbQueue)
+    {
+        $this->fbQueues[] = $fbQueue;
+
+        return $this;
+    }
+
+    /**
+     * Remove fbQueue
+     *
+     * @param \AppBundle\Entity\FbQueue $fbQueue
+     */
+    public function removeFbQueue(\AppBundle\Entity\FbQueue $fbQueue)
+    {
+        $this->fbQueues->removeElement($fbQueue);
+    }
+
+    /**
+     * Get fbQueues
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFbQueues()
+    {
+        return $this->fbQueues;
     }
 }

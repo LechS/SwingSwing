@@ -77,9 +77,15 @@ class FbPost
      */
     private $fbPage;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FbQueue", mappedBy="fbPost")
+     */
+    private $fbQueues;
+
 
     public function __construct() {
         $this->fbEndpoints = new ArrayCollection();
+        $this->fbQueues = new ArrayCollection();
     }
 
 
@@ -254,5 +260,39 @@ class FbPost
     public function getFbPage()
     {
         return $this->fbPage;
+    }
+
+    /**
+     * Add fbQueue
+     *
+     * @param \AppBundle\Entity\FbQueue $fbQueue
+     *
+     * @return FbPost
+     */
+    public function addFbQueue(\AppBundle\Entity\FbQueue $fbQueue)
+    {
+        $this->fbQueues[] = $fbQueue;
+
+        return $this;
+    }
+
+    /**
+     * Remove fbQueue
+     *
+     * @param \AppBundle\Entity\FbQueue $fbQueue
+     */
+    public function removeFbQueue(\AppBundle\Entity\FbQueue $fbQueue)
+    {
+        $this->fbQueues->removeElement($fbQueue);
+    }
+
+    /**
+     * Get fbQueues
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFbQueues()
+    {
+        return $this->fbQueues;
     }
 }

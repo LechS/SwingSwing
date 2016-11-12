@@ -24,7 +24,8 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "hwi/oauth-bundle": "0.5.*-dev",
-        "facebook/graph-sdk": "^5.0"
+        "facebook/graph-sdk": "^5.0",
+        "php-amqplib/rabbitmq-bundle": "^1.11"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

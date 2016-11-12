@@ -1,0 +1,128 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * FbPost
+ *
+ * @ORM\Table(name="fb_queue")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\FbQueueRepository")
+ */
+class FbQueue
+{
+
+    const STATUS_ERROR = -1;
+    const STATUS_NEW = 0;
+    const STATUS_PUBLICATED = 1;
+
+    const STATUSES = [
+        self::STATUS_ERROR => 'usunięty',
+        self::STATUS_NEW => 'nowy',
+        self::STATUS_PUBLICATED => 'opublikowany',
+    ];
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=true)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FbPost", inversedBy="fbQueues")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id", nullable=true)
+     */
+    private $fbPost;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FbEndpoint", inversedBy="fbQueues")
+     * @ORM\JoinColumn(name="endpoint_id", referencedColumnName="id", nullable=true)
+     */
+    private $fbEndpoint;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="error_message", type="text", nullable=true)
+     */
+    private $errorMessage;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="publicated_post_id", type="text", nullable=true)
+     */
+    private $publicatedPostId;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="status", type="integer", nullable=false)
+     */
+    private $status = self::STATUS_NEW;
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set fbPost
+     *
+     * @param \AppBundle\Entity\FbPost $fbPost
+     *
+     * @return FbQueue
+     */
+    public function setFbPost(\AppBundle\Entity\FbPost $fbPost = null)
+    {
+        $this->fbPost = $fbPost;
+
+        return $this;
+    }
+
+    /**
+     * Get fbPost
+     *
+     * @return \AppBundle\Entity\FbPost
+     */
+    public function getFbPost()
+    {
+        return $this->fbPost;
+    }
+
+    /**
+     * Set fbEndpoint
+     *
+     * @param \AppBundle\Entity\FbEndpoint $fbEndpoint
+     *
+     * @return FbQueue
+     */
+    public function setFbEndpoint(\AppBundle\Entity\FbEndpoint $fbEndpoint = null)
+    {
+        $this->fbEndpoint = $fbEndpoint;
+
+        return $this;
+    }
+
+    /**
+     * Get fbEndpoint
+     *
+     * @return \AppBundle\Entity\FbEndpoint
+     */
+    public function getFbEndpoint()
+    {
+        return $this->fbEndpoint;
+    }
+}

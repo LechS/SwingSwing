@@ -86,3 +86,41 @@ hwi_oauth:
             client_secret:       "%facebook_app_secret%"
             scope:               "publish_actions, pages_show_list, manage_pages, user_managed_groups"
 
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:     'localhost'
+            port:     5672
+            user:     'guest'
+            password: 'guest'
+            vhost:    '/'
+            lazy:     false
+            connection_timeout: 3
+            read_write_timeout: 3
+
+            # requires php-amqplib v2.4.1+ and PHP5.4+
+            keepalive: false
+
+            # requires php-amqplib v2.4.1+
+            heartbeat: 0
+
+            #requires php_sockets.dll
+            use_socket: false # default false
+        another:
+            # A different (unused) connection defined by an URL. One can omit all parts,
+            # except the scheme (amqp:). If both segment in the URL and a key value (see above)
+            # are given the value from the URL takes precedence.
+            # See https://www.rabbitmq.com/uri-spec.html on how to encode values.
+            url: 'amqp://guest:password@localhost:5672/vhost?lazy=1&connection_timeout=6'
+    producers:
+        request_queue:
+            connection:       default
+            exchange_options: {name: 'request_queue', type: direct}
+            service_alias:    request_queue_producer # no alias by default
+    consumers:
+        request_queue:
+            connection:       default
+            exchange_options: {name: 'request_queue', type: direct}
+            queue_options:    {name: 'request_queue'}
+            callback:         app.rabbitmq.service
+

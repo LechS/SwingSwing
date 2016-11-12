@@ -186,19 +186,14 @@ class FbPostController extends Controller
             $accessToken = $user->getFacebookLongLivedAccessToken();
         }
 
-
-        foreach ($endpoints as $endpoint) {
-            $this->get('app.facebook')->publish($accessToken, $endpoint->getFbId(), $message, $link);
-            sleep(1);
-        }
+        $this->get('app.requestqueue.service')->addPostToQueue($fbPost);
 
         $em = $this->getDoctrine()->getManager();
-
-        $fbPost->setStatus(FbPost::STATUS_SEND);
+        $fbPost->setStatus(FbPost::STATUS_TO_SEND);
         $em->persist($fbPost);
         $em->flush();
 
-        $this->addFlash('notice', 'post opublikowany');
+        $this->addFlash('notice', 'post przesłany do publikacji');
 
         return $this->redirectToRoute('fbpost_index');
     }

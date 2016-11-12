@@ -18,6 +18,7 @@ class FbPost
     const STATUS_DRAFT = 1;
     const STATUS_TO_SEND = 2;
     const STATUS_SENDING = 3;
+    const STATUS_SEND = 1;
 
     const STATUSES = [
         self::STATUS_DELETED => 'usunięty',
@@ -25,6 +26,7 @@ class FbPost
         self::STATUS_DRAFT => 'draft',
         self::STATUS_TO_SEND => 'do wysłania',
         self::STATUS_SENDING => 'wysyłany',
+        self::STATUS_SEND => 'wysłany',
     ];
 
     /**
@@ -71,13 +73,19 @@ class FbPost
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FbPage", inversedBy="fbPosts")
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=true)
      */
     private $fbPage;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FbQueue", mappedBy="fbPost")
+     */
+    private $fbQueues;
 
 
     public function __construct() {
         $this->fbEndpoints = new ArrayCollection();
+        $this->fbQueues = new ArrayCollection();
     }
 
 
@@ -229,4 +237,62 @@ class FbPost
         return $this->fbEndpoints;
     }
 
+
+    /**
+     * Set fbPage
+     *
+     * @param $fbPage
+     *
+     * @return FbPost
+     */
+    public function setFbPage($fbPage = null)
+    {
+        $this->fbPage = $fbPage;
+
+        return $this;
+    }
+
+    /**
+     * Get fbPage
+     *
+     * @return \AppBundle\Entity\FbPage
+     */
+    public function getFbPage()
+    {
+        return $this->fbPage;
+    }
+
+    /**
+     * Add fbQueue
+     *
+     * @param \AppBundle\Entity\FbQueue $fbQueue
+     *
+     * @return FbPost
+     */
+    public function addFbQueue(\AppBundle\Entity\FbQueue $fbQueue)
+    {
+        $this->fbQueues[] = $fbQueue;
+
+        return $this;
+    }
+
+    /**
+     * Remove fbQueue
+     *
+     * @param \AppBundle\Entity\FbQueue $fbQueue
+     */
+    public function removeFbQueue(\AppBundle\Entity\FbQueue $fbQueue)
+    {
+        $this->fbQueues->removeElement($fbQueue);
+    }
+
+    /**
+     * Get fbQueues
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFbQueues()
+    {
+        return $this->fbQueues;
+    }
 }
